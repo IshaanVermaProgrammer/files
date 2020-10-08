@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Gallery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <style>
+        body{
+            background-color: dodgerblue;
+            color:white;
+            font-family: 'Source Sans Pro', sans-serif;
+            text-align: center;
+        }
+        #apps button{
+            background:dodgerblue;
+            color:white;
+            font-family: cursive;
+            border:2px solid white;
+            border-radius: 7px;
+            font-weight: bold;
+            width: 8%;
+            height: 80px;
+        }
+        #btn{
+            background:purple;
+            color:white;
+            font-weight: bold;
+            font-family: cursive;
+            border-radius: 7px;
+        }
+        a{text-decoration: none;color: white;}
+    </style>
+    <script>
+        function run(){
+            let url=prompt('Enter app url');
+            let name=prompt('Enter app name');
+            class app{
+                constructor(name,link){
+                    this.name=name;
+                    this.link=link;
+                }
+                save(){
+                    let apps=JSON.parse(localStorage.getItem("apps"));
+                    if (!apps){
+                        apps=[];
+                        apps.push(this);
+                        localStorage.setItem("apps",JSON.stringify(apps));
+
+                    }
+                    else{
+                        apps.push(this);
+                        localStorage.setItem("apps",JSON.stringify(apps));
+                    }
+                }
+            }
+            const new_app=new app(name,url);
+            new_app.save();
+            location.reload();
+
+        }
+        const load=()=>{
+            const apps=JSON.parse(localStorage.getItem('apps'));
+            if (apps){
+            for (let i=0;i<apps.length;i++) {
+                document.getElementById("apps").innerHTML+=`<a href=${apps[i].link}><button>${apps[i].name}</button></a>&nbsp;&nbsp;`;
+            }
+           }
+else{
+document.getElementById("apps").innerHTML="<h1>No existing apps</h1>";
+}
+        }
+    </script>
+</head>
+<body onload="load()">
+    <div id="apps"></div>
+    <div id='installer'><br><br><br>
+        <button onclick="run()" id="btn">Install an app</button>
+    </div>
+</body>
+</html>
